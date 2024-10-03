@@ -34,7 +34,7 @@ The purpose of this project is to build an ETL-Query pipeline. I use World Bank,
 2. Under `mylib/` directory `transform_and_load.py` clean and transform raw data from `csv` to `db` and builds connections. 
 
 ### CRUD Operations
-Under `mylib/` directory `query.py` performs QRUD operations. For exxample: 
+Under `mylib/` directory `query.py` performs QRUD operations. For example: 
 1. Create: `querycreate()`
 2. Read: `queryRead()`
 3. Update: `queryUpdate()`
