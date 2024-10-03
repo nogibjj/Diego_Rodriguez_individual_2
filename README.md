@@ -1,5 +1,5 @@
-[![CI](https://github.com/nogibjj/Diego_Rodriguez_Miniproject1/actions/workflows/hello.yml/badge.svg)](https://github.com/nogibjj/Diego_Rodriguez_Miniproject1/actions/workflows/hello.yml)
 ## Diego_Rodriguez_Miniproject5
+[![CI/CD run](https://github.com/nogibjj/Diego_Rodriguez_Miniproject5/actions/workflows/hello.yml/badge.svg)](https://github.com/nogibjj/Diego_Rodriguez_Miniproject5/actions/workflows/hello.yml)
 ### File Structure
 ```
 Diego_Rodriguez_Miniproject5/
