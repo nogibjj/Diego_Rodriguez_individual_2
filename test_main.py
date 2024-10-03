@@ -33,9 +33,6 @@ def test_extract():  # to test in case of if condition
     assert result == "data/wdi.csv"
     assert os.path.exists("data/wdi.csv")
 
-    # Clean up after test
-    shutil.rmtree("data")
-
 
 if __name__ == "__main__":
     test_func()
