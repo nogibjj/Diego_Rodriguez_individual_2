@@ -40,3 +40,6 @@ Under `mylib/` directory `query.py` performs QRUD operations. For example:
 3. Update: `queryUpdate()`
 4. Delete: `queryDelete()`
 
+### Testing
+<img width="1090" alt="Testing" src="https://github.com/user-attachments/assets/aafafcc2-307a-4ab5-a204-9cc9e2a977fc">
+
