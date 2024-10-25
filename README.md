@@ -7,12 +7,16 @@ Diego_Rodriguez_Miniproject5/
 │   ├── devcontainer.json
 │   └── Dockerfile
 ├── .github/
+│   ├── workflows/bye.yml
 │   └── workflows/hello.yml
 ├── .gitignore
 ├── data/
 │   └── wdi.csv
 ├── mylib/
 │   ├── extract.py
+│   ├── query.py
+│   └── transform_load.py
+├── src/
 │   ├── query.py
 │   └── transform_load.py
 ├── .gitignore
