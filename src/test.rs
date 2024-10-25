@@ -1,4 +1,4 @@
-// tests/database_tests.rs
+// tests.rs asserting each function
 use std::path::Path;
 use std::fs;
 use crate::{extract, load, query_create, query_read, query_update, query_delete};
