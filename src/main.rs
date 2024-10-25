@@ -1,35 +1,51 @@
-// Cargo.toml dependencies:
-// [dependencies]
-// reqwest = { version = "0.11", features = ["blocking"] }
-// tokio = { version = "1", features = ["full"] }
-// csv = "1.1"
-// rusqlite = "0.26"
-
-use csv::ReaderBuilder;
+use std::{fs, io::Write, path::Path, time::Instant};
 use reqwest::blocking::get;
+use csv::ReaderBuilder;
 use rusqlite::{params, Connection, Result};
+use memory_stats::memory_stats;
 use std::error::Error;
-use std::{fs, io::Write, path::Path};
 
-// Extracts data from a URL and saves it locally
+fn write_output_to_md(content: &str) -> Result<()> {
+    let mut file = fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open("python_vs_rust.md")?;
+    writeln!(file, "{}", content)?;
+    Ok(())
+}
+
 fn extract(url: &str, file_path: &str, directory: &str) -> Result<String, Box<dyn Error>> {
     if !Path::new(directory).exists() {
         fs::create_dir_all(directory)?;
     }
 
+    let start = Instant::now();
+    let initial_mem = memory_stats().map(|m| m.physical_mem).unwrap_or(0);
+
     let response = get(url)?.bytes()?;
     let mut file = fs::File::create(file_path)?;
     file.write_all(&response)?;
 
+    let duration = start.elapsed();
+    let final_mem = memory_stats().map(|m| m.physical_mem).unwrap_or(0);
+
+    let output = format!(
+        "Extract completed in {:.2?} seconds, memory used: {} KB",
+        duration,
+        (final_mem - initial_mem) / 1024
+    );
+    write_output_to_md(&output)?;
+
     Ok(file_path.to_string())
 }
 
-// Loads data from CSV into the SQLite database
 fn load(dataset: &str) -> Result<String, Box<dyn Error>> {
+    let start = Instant::now();
+    let initial_mem = memory_stats().map(|m| m.physical_mem).unwrap_or(0);
+
     let file = fs::File::open(dataset)?;
     let mut rdr = ReaderBuilder::new().from_reader(file);
     let conn = Connection::open("wdi.db")?;
-
     conn.execute("DROP TABLE IF EXISTS wdi", [])?;
     conn.execute(
         "CREATE TABLE wdi (
@@ -63,10 +79,42 @@ fn load(dataset: &str) -> Result<String, Box<dyn Error>> {
         ])?;
     }
 
+    let duration = start.elapsed();
+    let final_mem = memory_stats().map(|m| m.physical_mem).unwrap_or(0);
+
+    let output = format!(
+        "Load completed in {:.2?} seconds, memory used: {} KB",
+        duration,
+        (final_mem - initial_mem) / 1024
+    );
+    write_output_to_md(&output)?;
+
     Ok("wdi.db".to_string())
 }
 
-// CRUD Operations
+fn measure_time_and_memory<F>(operation_name: &str, f: F) -> Result<String, Box<dyn Error>>
+where
+    F: Fn() -> Result<String, Box<dyn Error>>,
+{
+    let start = Instant::now();
+    let initial_mem = memory_stats().map(|m| m.physical_mem).unwrap_or(0);
+
+    let result = f()?;
+
+    let duration = start.elapsed();
+    let final_mem = memory_stats().map(|m| m.physical_mem).unwrap_or(0);
+
+    let output = format!(
+        "{} completed in {:.2?} seconds, memory used: {} KB",
+        operation_name,
+        duration,
+        (final_mem - initial_mem) / 1024
+    );
+    write_output_to_md(&output)?;
+
+    Ok(result)
+}
+
 fn query_create() -> Result<String> {
     let conn = Connection::open("wdi.db")?;
     conn.execute(
@@ -111,32 +159,19 @@ fn query_delete() -> Result<String> {
 }
 
 fn main() {
+    // Initialize markdown file with a header
+    fs::write("python_vs_rust.md", "# Performance Metrics\n\n").unwrap();
+
     let url = "https://media.githubusercontent.com/media/nickeubank/MIDS_Data/master/World_Development_Indicators/wdi_small_tidy_2015.csv";
     let file_path = "data/wdi.csv";
     let directory = "data";
 
-    if let Ok(path) = extract(url, file_path, directory) {
-        println!("File saved to {}", path);
-    } else {
-        eprintln!("Error saving file.");
-    }
-
-    if let Ok(db_path) = load(file_path) {
-        println!("Database saved as {}", db_path);
-    } else {
-        eprintln!("Error loading database.");
-    }
-
-    if let Ok(msg) = query_create() {
-        println!("{}", msg);
-    }
-    if let Ok(msg) = query_read() {
-        println!("{}", msg);
-    }
-    if let Ok(msg) = query_update() {
-        println!("{}", msg);
-    }
-    if let Ok(msg) = query_delete() {
-        println!("{}", msg);
-    }
+    measure_time_and_memory("Extract", || extract(url, file_path, directory)).unwrap();
+    measure_time_and_memory("Load", || load(file_path)).unwrap();
+    measure_time_and_memory("Query Create", query_create).unwrap();
+    measure_time_and_memory("Query Read", query_read).unwrap();
+    measure_time_and_memory("Query Update", query_update).unwrap();
+    measure_time_and_memory("Query Delete", query_delete).unwrap();
 }
+
+
