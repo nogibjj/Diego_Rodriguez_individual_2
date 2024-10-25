@@ -5,3 +5,6 @@ __pycache__/
 .coverage
 
 .DS_Store
+
+target/
+/target/
