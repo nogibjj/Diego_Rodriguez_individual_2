@@ -21,8 +21,6 @@ jobs:
         run: make python_test
       - name: format
         run: make python_format
-      - name: pull Repository
-        run: git pull
       - name: generate_and_push
         run: make generate_and_push
 
