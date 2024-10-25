@@ -11,6 +11,8 @@ use csv::ReaderBuilder;
 use rusqlite::{params, Connection, Result};
 use memory_stats::memory_stats;
 use std::error::Error;
+use std::fs::OpenOptions;
+use std::io::{Result, Write};
 
 fn append_to_md_file(
     file_name: &str,
