@@ -5,11 +5,11 @@
 // csv = "1.1"
 // rusqlite = "0.26"
 
-use std::{fs, io::Write, path::Path};
-use reqwest::blocking::get;
 use csv::ReaderBuilder;
+use reqwest::blocking::get;
 use rusqlite::{params, Connection, Result};
 use std::error::Error;
+use std::{fs, io::Write, path::Path};
 
 // Extracts data from a URL and saves it locally
 fn extract(url: &str, file_path: &str, directory: &str) -> Result<String, Box<dyn Error>> {
