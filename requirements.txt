@@ -9,3 +9,6 @@ ruff==0.0.284 #For linting
 #web
 fastapi == 0.85.0
 uvicorn == 0.18.3
+
+#library
+psutil == 6.0.0
