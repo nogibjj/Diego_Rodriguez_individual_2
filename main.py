@@ -35,7 +35,7 @@ def main_res():
 
 
 def measure_time_and_memory(func):
-    """Decorator to measure time and memory usage of a function and save to rust_vs_python.md."""
+    """time and memory usage of a f_x and save to rust_vs_python.md."""
 
     def wrapper(*args, **kwargs):
         process = psutil.Process()
