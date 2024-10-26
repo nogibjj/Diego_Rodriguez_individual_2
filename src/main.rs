@@ -94,7 +94,7 @@ where
     let final_mem = memory_stats().map(|m| m.physical_mem).unwrap_or(0);
 
     let output = format!(
-        "{} completed in {:.2?} seconds, memory used: {} KB\n",
+        "{} Rust completed in {:.2?} seconds, memory used: {} KB\n",
         operation_name,
         duration,
         (final_mem - initial_mem) / 1024

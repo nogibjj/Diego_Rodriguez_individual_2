@@ -4,7 +4,7 @@ extract a dataset from URL
 
 import requests
 import os
-from main import measure_time_and_memory
+from mylib.utils import measure_time_and_memory
 
 
 @measure_time_and_memory
