@@ -5,6 +5,8 @@ Main cli or app entry point
 from mylib.extract import extract
 from mylib.transform_load import load
 from mylib.query import querycreate, queryRead, queryUpdate, queryDelete
+import time
+import psutil
 
 # Extract
 extract()
