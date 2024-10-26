@@ -3,8 +3,10 @@ Query the database
 """
 
 import sqlite3
+from main import measure_time_and_memory
 
 
+@measure_time_and_memory
 def querycreate():
     conn = sqlite3.connect("wdi.db")
     cursor = conn.cursor()
@@ -16,6 +18,7 @@ def querycreate():
     return "Create Success"
 
 
+@measure_time_and_memory
 def queryRead():
     conn = sqlite3.connect("wdi.db")
     cursor = conn.cursor()
@@ -25,6 +28,7 @@ def queryRead():
     return "Read Success"
 
 
+@measure_time_and_memory
 def queryUpdate():
     conn = sqlite3.connect("wdi.db")
     cursor = conn.cursor()
@@ -34,6 +38,7 @@ def queryUpdate():
     return "Update Success"
 
 
+@measure_time_and_memory
 def queryDelete():
     conn = sqlite3.connect("wdi.db")
     cursor = conn.cursor()

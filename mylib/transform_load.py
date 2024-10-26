@@ -4,8 +4,10 @@ Transforms and Loads data into the local SQLite3 database
 
 import csv
 import sqlite3
+from main import measure_time_and_memory
 
 
+@measure_time_and_memory
 def load(dataset="data/wdi.csv"):
     """Transforms and Loads data into the local SQLite3 database"""
     # Open and read the CSV file

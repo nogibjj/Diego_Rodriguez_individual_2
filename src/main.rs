@@ -1,40 +1,9 @@
-// Cargo.toml dependencies:
-// [dependencies]
-// reqwest = { version = "0.11", features = ["blocking"] }
-// csv = "1.1"
-// rusqlite = "0.26"
-// memory-stats = "0.2"
-
 use std::{fs, io::Write, path::Path, time::Instant};
 use reqwest::blocking::get;
 use csv::ReaderBuilder;
 use rusqlite::{params, Connection, Result};
 use memory_stats::memory_stats;
 use std::error::Error;
-use std::fs::OpenOptions;
-use std::io::{Result, Write};
-
-fn append_to_md_file(
-    file_name: &str,
-    message: &str,
-
-) -> Result<()> {
-    let file = OpenOptions::new()
-        .write(true)
-        .create(true)
-        .append(true)
-        .open(file_name)?;
-
-    let mut file = std::io::BufWriter::new(file);
-    let e_d = if encrypt { "encryption" } else { "decryption" };
-    writeln!(file,"{}\n\n", message)?;
-    println!("Content appended to {} successfully!", file_name);
-
-    Ok(())
-}
-
-
-
 
 fn extract(url: &str, file_path: &str, directory: &str) -> Result<String, Box<dyn Error>> {
     if !Path::new(directory).exists() {
@@ -124,12 +93,20 @@ where
     let duration = start.elapsed();
     let final_mem = memory_stats().map(|m| m.physical_mem).unwrap_or(0);
 
-    println!(
-        "{} completed in {:.2?} seconds, memory used: {} KB",
+    let output = format!(
+        "{} completed in {:.2?} seconds, memory used: {} KB\n",
         operation_name,
         duration,
         (final_mem - initial_mem) / 1024
     );
+    println!("{}", output);
+
+    // Append the output to rust_vs_python.md
+    let mut file = fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open("rust_vs_python.md")?;
+    file.write_all(output.as_bytes())?;
 
     Ok(result)
 }
@@ -182,11 +159,11 @@ fn main() {
     let file_path = "data/wdi.csv";
     let directory = "data";
 
-    append_to_md_file("rust_vs_python.md", measure_time_and_memory("Extract", || extract(url, file_path, directory)).unwrap());
-    append_to_md_file("rust_vs_python.md", measure_time_and_memory("Load", || load(file_path)).unwrap());
-    append_to_md_file("rust_vs_python.md", measure_time_and_memory("Query Create", query_create).unwrap());
-    append_to_md_file("rust_vs_python.md", measure_time_and_memory("Query Read", query_read).unwrap());
-    append_to_md_file("rust_vs_python.md", measure_time_and_memory("Query Update", query_update).unwrap());
-    append_to_md_file("rust_vs_python.md", measure_time_and_memory("Query Delete", query_delete).unwrap());
+    measure_time_and_memory("Extract", || extract(url, file_path, directory)).unwrap();
+    measure_time_and_memory("Load", || load(file_path)).unwrap();
+    measure_time_and_memory("Query Create", query_create).unwrap();
+    measure_time_and_memory("Query Read", query_read).unwrap();
+    measure_time_and_memory("Query Update", query_update).unwrap();
+    measure_time_and_memory("Query Delete", query_delete).unwrap();
 }
 
