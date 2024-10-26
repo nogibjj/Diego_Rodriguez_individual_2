@@ -3,7 +3,6 @@ Query the database
 """
 
 import sqlite3
-from main import measure_time_and_memory
 from mylib.utils import measure_time_and_memory
 
 

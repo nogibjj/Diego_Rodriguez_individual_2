@@ -4,7 +4,6 @@ Transforms and Loads data into the local SQLite3 database
 
 import csv
 import sqlite3
-from main import measure_time_and_memory
 from mylib.utils import measure_time_and_memory
 
 

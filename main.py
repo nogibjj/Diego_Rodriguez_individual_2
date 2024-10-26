@@ -2,7 +2,6 @@
 Main cli or app entry point
 """
 
-from mylib.utils import measure_time_and_memory
 from mylib.extract import extract
 from mylib.transform_load import load
 from mylib.query import querycreate, queryRead, queryUpdate, queryDelete
