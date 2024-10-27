@@ -103,7 +103,6 @@ where
 
     // Append the output to rust_vs_python.md
     let mut file = fs::OpenOptions::new()
-        .write(true)
         .create(true)
         .append(true)
         .open("rust_vs_python.md")?;
