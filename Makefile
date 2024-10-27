@@ -51,9 +51,6 @@ python_container-lint:
 python_all: python_install python_lint python_test python_format 
 
 generate_and_push:
-	# Create the markdown file 
-	python test_main.py  # Replace with the actual command to generate the markdown
-
 	# Add, commit, and push the generated files to GitHub
 	@if [ -n "$$(git status --porcelain)" ]; then \
 		git config --local user.email "action@github.com"; \
