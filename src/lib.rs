@@ -41,12 +41,12 @@ pub fn load(dataset: &str) -> Result<String, Box<dyn Error>> {
         "CREATE TABLE wdi (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             country TEXT,
-            fertility_rate INTEGER,
-            viral INTEGER,
-            battle INTEGER,
-            cpia_1 INTEGER,
-            cpia_2 INTEGER,
-            debt INTEGER
+            fertility_rate REAL,
+            viral REAL,
+            battle REAL,
+            cpia_1 REAL,
+            cpia_2 REAL,
+            debt REAL
         )",
         [],
     )?;
