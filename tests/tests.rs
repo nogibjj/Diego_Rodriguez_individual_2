@@ -11,10 +11,15 @@ mod tests{
         let conn = Connection::open("wdi.db")?;
         // Create the wdi table if it does not exist
         conn.execute(
-            "CREATE TABLE IF NOT EXISTS wdi (
-                id INTEGER PRIMARY KEY,
-                indicator_name TEXT NOT NULL,
-                value REAL NOT NULL
+            "CREATE TABLE wdi (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                country TEXT,
+                fertility_rate INTEGER,
+                viral INTEGER,
+                battle INTEGER,
+                cpia_1 INTEGER,
+                cpia_2 INTEGER,
+                debt INTEGER
             )",
             [],
         )?;
