@@ -95,3 +95,45 @@ Memory used: 0.0000 KB
 Python Function 'extract' completed in 0.0698 seconds
 Memory used: 0.0000 KB
 
+Python Function 'extract' completed in 0.0574 seconds
+Memory used: 3200.0000 KB
+
+Python Function 'extract' completed in 0.0591 seconds
+Memory used: 0.0000 KB
+
+Python Function 'load' completed in 0.0066 seconds
+Memory used: 640.0000 KB
+
+Python Function 'querycreate' completed in 0.0003 seconds
+Memory used: 0.0000 KB
+
+Python Function 'queryRead' completed in 0.0002 seconds
+Memory used: 0.0000 KB
+
+Python Function 'queryUpdate' completed in 0.0002 seconds
+Memory used: 0.0000 KB
+
+Python Function 'queryDelete' completed in 0.0002 seconds
+Memory used: 0.0000 KB
+
+Python Function 'extract' completed in 0.0579 seconds
+Memory used: 0.0000 KB
+
+Python Function 'load' completed in 0.0053 seconds
+Memory used: 0.0000 KB
+
+Python Function 'querycreate' completed in 0.0003 seconds
+Memory used: 0.0000 KB
+
+Python Function 'queryRead' completed in 0.0001 seconds
+Memory used: 0.0000 KB
+
+Python Function 'queryUpdate' completed in 0.0002 seconds
+Memory used: 0.0000 KB
+
+Python Function 'queryDelete' completed in 0.0002 seconds
+Memory used: 0.0000 KB
+
+Python Function 'extract' completed in 0.0581 seconds
+Memory used: 0.0000 KB
+
