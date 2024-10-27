@@ -36,6 +36,14 @@ pub fn load(dataset: &str) -> Result<String, Box<dyn Error>> {
     let file = fs::File::open(dataset)?;
     let mut rdr = ReaderBuilder::new().from_reader(file);
     let conn = Connection::open("wdi.db")?;
+    
+    // Set writable permissions on the database file
+    let metadata = std::fs::metadata("wdi.db")?;
+    let mut permissions = metadata.permissions();
+    permissions.set_mode(0o644); // Read-write for the owner
+    std::fs::set_permissions("wdi.db", permissions)?;
+
+    // Drop and recreate table
     conn.execute("DROP TABLE IF EXISTS wdi", [])?;
     conn.execute(
         "CREATE TABLE wdi (
@@ -51,21 +59,23 @@ pub fn load(dataset: &str) -> Result<String, Box<dyn Error>> {
         [],
     )?;
 
+    // Prepare the insert statement
     let mut stmt = conn.prepare(
         "INSERT INTO wdi (country, fertility_rate, viral, battle, cpia_1, cpia_2, debt) 
         VALUES (?, ?, ?, ?, ?, ?, ?)",
     )?;
 
+    // Loop through CSV and insert data, parsing to f64 where necessary
     for result in rdr.records().skip(1) {
         let record = result?;
         stmt.execute(params![
             record.get(0),
-            record.get(1).and_then(|s| s.parse::<i32>().ok()),
-            record.get(2).and_then(|s| s.parse::<i32>().ok()),
-            record.get(3).and_then(|s| s.parse::<i32>().ok()),
-            record.get(4).and_then(|s| s.parse::<i32>().ok()),
-            record.get(5).and_then(|s| s.parse::<i32>().ok()),
-            record.get(6).and_then(|s| s.parse::<i32>().ok())
+            record.get(1).and_then(|s| s.parse::<f64>().ok()),
+            record.get(2).and_then(|s| s.parse::<f64>().ok()),
+            record.get(3).and_then(|s| s.parse::<f64>().ok()),
+            record.get(4).and_then(|s| s.parse::<f64>().ok()),
+            record.get(5).and_then(|s| s.parse::<f64>().ok()),
+            record.get(6).and_then(|s| s.parse::<f64>().ok())
         ])?;
     }
 

@@ -6,6 +6,11 @@ use std::fs;
 // Function to set up the database and create the necessary table
 fn setup_database() -> Result<(), Box<dyn std::error::Error>> {
     let conn = Connection::open("wdi.db")?;
+    // Set writable permissions on the database file
+    let metadata = std::fs::metadata("wdi.db")?;
+    let mut permissions = metadata.permissions();
+    permissions.set_mode(0o644); // 644 is typical read-write permissions for the owner
+    std::fs::set_permissions("wdi.db", permissions)?;
     conn.execute(
         "CREATE TABLE IF NOT EXISTS wdi (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
