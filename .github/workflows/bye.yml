@@ -17,9 +17,9 @@ jobs:
           profile: minimal
           components: clippy, rustfmt
           override: true
-    - name: update linux
+    - name: Update Linux
       run: sudo apt update 
-    - name: update Rust
+    - name: Update Rust
       run: make install
     - name: Check Rust versions
       run: make rust-version
@@ -29,9 +29,16 @@ jobs:
       run: make lint
     - name: Test
       run: make test
-    - name: pull repository
+    - name: Pull Repository
       run: git pull
-    - name: write logs
+    - name: Write Logs
       run: make run   
-    - name: add rust logs
+    - name: Add Rust Logs
       run: make generate_and_push
+    - name: Build Release
+      run: cargo build --release
+    - name: Upload Binary Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: rust-binary
+        path: target/release/binary_file
