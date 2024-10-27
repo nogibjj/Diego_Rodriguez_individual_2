@@ -1,32 +1,6 @@
-use rusqlite::Connection;
-use rust_vs_python::{extract, load, query_create, query_read, query_update, query_delete, measure_time_and_memory};
-use std::path::Path;
-use std::fs;
-use std::os::unix::fs::PermissionsExt
-
-// Function to set up the database and create the necessary table
-fn setup_database() -> Result<(), Box<dyn std::error::Error>> {
-    let conn = Connection::open("wdi.db")?;
-    // Set writable permissions on the database file
-    let metadata = std::fs::metadata("wdi.db")?;
-    let mut permissions = metadata.permissions();
-    permissions.set_mode(0o644); // 644 is typical read-write permissions for the owner
-    std::fs::set_permissions("wdi.db", permissions)?;
-    conn.execute(
-        "CREATE TABLE IF NOT EXISTS wdi (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            country TEXT,
-            fertility_rate REAL,
-            viral REAL,
-            battle REAL,
-            cpia_1 REAL,
-            cpia_2 REAL,
-            debt REAL
-        )",
-        [],
-    )?;
-    Ok(())
-}
+use rust_vs_python::{
+    extract, load, measure_time_and_memory, query_create, query_delete, query_read, query_update,
+};
 
 fn main() {
     let url = "https://media.githubusercontent.com/media/nickeubank/MIDS_Data/master/World_Development_Indicators/wdi_small_tidy_2015.csv";
@@ -45,7 +19,8 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use rust_vs_python::{extract, load, query_create, query_read, query_update, query_delete};
+    use std::fs;
+    use std::path::Path;
 
     #[test]
     fn test_extract() {
@@ -62,45 +37,32 @@ mod tests {
 
     #[test]
     fn test_load() {
-        setup_database().expect("Failed to set up the database");
-
         let dataset = "data/wdi.csv";
         let result = load(dataset);
         assert!(result.is_ok());
         assert!(Path::new("wdi.db").exists());
-
-        // Cleanup
-        let _ = fs::remove_file("wdi.db");
     }
 
     #[test]
     fn test_query_create() {
-        setup_database().expect("Failed to set up the database");
-
         let result = query_create();
         assert_eq!(result.unwrap(), "Create Success");
     }
 
     #[test]
     fn test_query_read() {
-        setup_database().expect("Failed to set up the database");
-
         let result = query_read();
         assert_eq!(result.unwrap(), "Read Success");
     }
 
     #[test]
     fn test_query_update() {
-        setup_database().expect("Failed to set up the database");
-
         let result = query_update();
         assert_eq!(result.unwrap(), "Update Success");
     }
 
     #[test]
     fn test_query_delete() {
-        setup_database().expect("Failed to set up the database");
-
         let result = query_delete();
         assert_eq!(result.unwrap(), "Delete Success");
     }

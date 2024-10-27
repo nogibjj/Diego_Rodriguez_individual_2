@@ -3,8 +3,8 @@ use memory_stats::memory_stats;
 use reqwest::blocking::get;
 use rusqlite::{params, Connection, Result};
 use std::error::Error;
+use std::os::unix::fs::PermissionsExt;
 use std::{fs, io::Write, path::Path, time::Instant};
-
 pub fn extract(url: &str, file_path: &str, directory: &str) -> Result<String, Box<dyn Error>> {
     if !Path::new(directory).exists() {
         fs::create_dir_all(directory)?;
@@ -36,7 +36,7 @@ pub fn load(dataset: &str) -> Result<String, Box<dyn Error>> {
     let file = fs::File::open(dataset)?;
     let mut rdr = ReaderBuilder::new().from_reader(file);
     let conn = Connection::open("wdi.db")?;
-    
+
     // Set writable permissions on the database file
     let metadata = std::fs::metadata("wdi.db")?;
     let mut permissions = metadata.permissions();
@@ -139,12 +139,12 @@ pub fn query_read() -> Result<String, Box<dyn Error>> {
         Ok((
             row.get::<_, Option<i32>>(0)?,
             row.get::<_, Option<String>>(1)?,
-            row.get::<_, Option<i32>>(2)?,
-            row.get::<_, Option<i32>>(3)?,
-            row.get::<_, Option<i32>>(4)?,
-            row.get::<_, Option<i32>>(5)?,
-            row.get::<_, Option<i32>>(6)?,
-            row.get::<_, Option<i32>>(7)?,
+            row.get::<_, Option<f64>>(2)?,
+            row.get::<_, Option<f64>>(3)?,
+            row.get::<_, Option<f64>>(4)?,
+            row.get::<_, Option<f64>>(5)?,
+            row.get::<_, Option<f64>>(6)?,
+            row.get::<_, Option<f64>>(7)?,
         ))
     })?;
 
