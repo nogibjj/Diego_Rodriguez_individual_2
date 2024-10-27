@@ -2,7 +2,7 @@
 mod tests{
     use std::path::Path;
     use std::fs;
-    use crate::{extract, load, query_create, query_read, query_update, query_delete};
+    use Rust_vsPython::{extract, load, query_create, query_read, query_update, query_delete};
 
     #[test]
     fn test_extract() {
