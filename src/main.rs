@@ -2,6 +2,7 @@ use rusqlite::Connection;
 use rust_vs_python::{extract, load, query_create, query_read, query_update, query_delete, measure_time_and_memory};
 use std::path::Path;
 use std::fs;
+use std::os::unix::fs::PermissionsExt
 
 // Function to set up the database and create the necessary table
 fn setup_database() -> Result<(), Box<dyn std::error::Error>> {
