@@ -1,4 +1,4 @@
-use crate::{extract, load, query_create, query_read, query_update, query_delete, measure_time_and_memory};
+use rust_vs_python::{extract, load, query_create, query_read, query_update, query_delete, measure_time_and_memory};
 
 
 fn main() {

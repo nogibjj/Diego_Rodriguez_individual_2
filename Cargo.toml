@@ -1,5 +1,5 @@
 [package]
-name = "Rust_vsPython"
+name = "rust_vs_python"
 version = "0.1.0"
 edition = "2021"
 
