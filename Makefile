@@ -62,11 +62,17 @@ generate_and_push:
 		echo "No changes to commit. Skipping commit and push."; \
 	fi
 
-extract:
-	python main.py extract
+generate_and_push_python:
+	# Create the markdown file 
+	python test_main.py  # Replace with the actual command to generate the markdown
 
-transform_load: 
-	python main.py transform_load
-
-query:
-	python main.py general_query "SELECT * FROM ServeTimesDB WHERE server='Roger Federer';"
+	# Add, commit, and push the generated files to GitHub
+	@if [ -n "$$(git status --porcelain)" ]; then \
+		git config --local user.email "action@github.com"; \
+		git config --local user.name "GitHub Action"; \
+		git add .; \
+		git commit -m "Add SQL log"; \
+		git push; \
+	else \
+		echo "No changes to commit. Skipping commit and push."; \
+	fi

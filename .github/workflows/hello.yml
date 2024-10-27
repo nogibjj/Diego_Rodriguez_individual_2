@@ -26,5 +26,5 @@ jobs:
       - name: pull Repository
         run: git pull
       - name: generate_and_push
-        run: make generate_and_push
+        run: make generate_and_push_python
 
