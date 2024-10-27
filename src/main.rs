@@ -1,9 +1,9 @@
-use std::{fs, io::Write, path::Path, time::Instant};
-use reqwest::blocking::get;
 use csv::ReaderBuilder;
-use rusqlite::{params, Connection, Result};
 use memory_stats::memory_stats;
+use reqwest::blocking::get;
+use rusqlite::{params, Connection, Result};
 use std::error::Error;
+use std::{fs, io::Write, path::Path, time::Instant};
 
 fn extract(url: &str, file_path: &str, directory: &str) -> Result<String, Box<dyn Error>> {
     if !Path::new(directory).exists() {
@@ -166,4 +166,3 @@ fn main() {
     measure_time_and_memory("Query Update", query_update).unwrap();
     measure_time_and_memory("Query Delete", query_delete).unwrap();
 }
-
