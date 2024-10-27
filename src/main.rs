@@ -94,7 +94,7 @@ where
     let final_mem = memory_stats().map(|m| m.physical_mem).unwrap_or(0);
 
     let output = format!(
-        "{} Rust completed in {:.2?} seconds, memory used: {} KB\n",
+        "{} Rust completed in {:.4?} seconds, memory used: {} KB\n",
         operation_name,
         duration,
         (final_mem - initial_mem) / 1024
@@ -111,7 +111,7 @@ where
     Ok(result)
 }
 
-fn query_create() -> Result<String> {
+fn query_create() -> Result<String, Box<dyn Error>> {
     let conn = Connection::open("wdi.db")?;
     conn.execute(
         "INSERT INTO wdi (country, fertility_rate, viral, battle, cpia_1) VALUES (?1, ?2, ?3, ?4, ?5)",
@@ -120,7 +120,7 @@ fn query_create() -> Result<String> {
     Ok("Create Success".to_string())
 }
 
-fn query_read() -> Result<String> {
+fn query_read() -> Result<String, Box<dyn Error>> {
     let conn = Connection::open("wdi.db")?;
     let mut stmt = conn.prepare("SELECT * FROM wdi LIMIT 10")?;
     let rows = stmt.query_map([], |row| {
@@ -142,13 +142,13 @@ fn query_read() -> Result<String> {
     Ok("Read Success".to_string())
 }
 
-fn query_update() -> Result<String> {
+fn query_update() -> Result<String, Box<dyn Error>> {
     let conn = Connection::open("wdi.db")?;
     conn.execute("UPDATE wdi SET viral = 1 WHERE id = 1", [])?;
     Ok("Update Success".to_string())
 }
 
-fn query_delete() -> Result<String> {
+fn query_delete() -> Result<String, Box<dyn Error>> {
     let conn = Connection::open("wdi.db")?;
     conn.execute("DELETE FROM wdi WHERE id = 3", [])?;
     Ok("Delete Success".to_string())
