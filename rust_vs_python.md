@@ -11,3 +11,45 @@ Query Create Rust completed in 5.5035ms seconds, memory used: 0 KB
 Query Read Rust completed in 978.4670µs seconds, memory used: 0 KB
 Query Update Rust completed in 3.6900ms seconds, memory used: 0 KB
 Query Delete Rust completed in 1.9394ms seconds, memory used: 0 KB
+Python Function 'extract' completed in 0.0598 seconds
+Memory used: 3200.0000 KB
+
+Python Function 'extract' completed in 0.0537 seconds
+Memory used: 128.0000 KB
+
+Python Function 'load' completed in 0.0064 seconds
+Memory used: 512.0000 KB
+
+Python Function 'querycreate' completed in 0.0003 seconds
+Memory used: 0.0000 KB
+
+Python Function 'queryRead' completed in 0.0001 seconds
+Memory used: 0.0000 KB
+
+Python Function 'queryUpdate' completed in 0.0002 seconds
+Memory used: 0.0000 KB
+
+Python Function 'queryDelete' completed in 0.0002 seconds
+Memory used: 0.0000 KB
+
+Python Function 'extract' completed in 0.0505 seconds
+Memory used: 0.0000 KB
+
+Python Function 'load' completed in 0.0052 seconds
+Memory used: 0.0000 KB
+
+Python Function 'querycreate' completed in 0.0002 seconds
+Memory used: 0.0000 KB
+
+Python Function 'queryRead' completed in 0.0001 seconds
+Memory used: 0.0000 KB
+
+Python Function 'queryUpdate' completed in 0.0002 seconds
+Memory used: 0.0000 KB
+
+Python Function 'queryDelete' completed in 0.0002 seconds
+Memory used: 0.0000 KB
+
+Python Function 'extract' completed in 0.0565 seconds
+Memory used: 128.0000 KB
+
