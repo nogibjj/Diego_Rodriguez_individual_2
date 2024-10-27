@@ -5,7 +5,7 @@ use rusqlite::{params, Connection, Result};
 use std::error::Error;
 use std::{fs, io::Write, path::Path, time::Instant};
 
-fn extract(url: &str, file_path: &str, directory: &str) -> Result<String, Box<dyn Error>> {
+pub fn extract(url: &str, file_path: &str, directory: &str) -> Result<String, Box<dyn Error>> {
     if !Path::new(directory).exists() {
         fs::create_dir_all(directory)?;
     }
@@ -29,7 +29,7 @@ fn extract(url: &str, file_path: &str, directory: &str) -> Result<String, Box<dy
     Ok(file_path.to_string())
 }
 
-fn load(dataset: &str) -> Result<String, Box<dyn Error>> {
+pub fn load(dataset: &str) -> Result<String, Box<dyn Error>> {
     let start = Instant::now();
     let initial_mem = memory_stats().map(|m| m.physical_mem).unwrap_or(0);
 
@@ -81,7 +81,7 @@ fn load(dataset: &str) -> Result<String, Box<dyn Error>> {
     Ok("wdi.db".to_string())
 }
 
-fn measure_time_and_memory<F>(operation_name: &str, f: F) -> Result<String, Box<dyn Error>>
+pub fn measure_time_and_memory<F>(operation_name: &str, f: F) -> Result<String, Box<dyn Error>>
 where
     F: Fn() -> Result<String, Box<dyn Error>>,
 {
@@ -113,7 +113,7 @@ where
     Ok(result)
 }
 
-fn query_create() -> Result<String, Box<dyn Error>> {
+pub fn query_create() -> Result<String, Box<dyn Error>> {
     let conn = Connection::open("wdi.db")?;
     conn.execute(
         "INSERT INTO wdi (country, fertility_rate, viral, battle, cpia_1) VALUES (?1, ?2, ?3, ?4, ?5)",
@@ -122,7 +122,7 @@ fn query_create() -> Result<String, Box<dyn Error>> {
     Ok("Create Success".to_string())
 }
 
-fn query_read() -> Result<String, Box<dyn Error>> {
+pub fn query_read() -> Result<String, Box<dyn Error>> {
     let conn = Connection::open("wdi.db")?;
     let mut stmt = conn.prepare("SELECT * FROM wdi LIMIT 10")?;
     let rows = stmt.query_map([], |row| {
@@ -144,13 +144,13 @@ fn query_read() -> Result<String, Box<dyn Error>> {
     Ok("Read Success".to_string())
 }
 
-fn query_update() -> Result<String, Box<dyn Error>> {
+pub fn query_update() -> Result<String, Box<dyn Error>> {
     let conn = Connection::open("wdi.db")?;
     conn.execute("UPDATE wdi SET viral = 1 WHERE id = 1", [])?;
     Ok("Update Success".to_string())
 }
 
-fn query_delete() -> Result<String, Box<dyn Error>> {
+pub fn query_delete() -> Result<String, Box<dyn Error>> {
     let conn = Connection::open("wdi.db")?;
     conn.execute("DELETE FROM wdi WHERE id = 3", [])?;
     Ok("Delete Success".to_string())
