@@ -107,9 +107,9 @@ where
         .create(true)
         .append(true)
         .open("rust_vs_python.md")?;
-        println!("Attempting to write to rust_vs_python.md");
-        file.write_all(output.as_bytes())?;
-        println!("Write operation to rust_vs_python.md succeeded.");
+    println!("Attempting to write to rust_vs_python.md");
+    file.write_all(output.as_bytes())?;
+    println!("Write operation to rust_vs_python.md succeeded.");
 
     Ok(result)
 }
