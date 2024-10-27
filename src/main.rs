@@ -103,10 +103,13 @@ where
 
     // Append the output to rust_vs_python.md
     let mut file = fs::OpenOptions::new()
+        .write(true)
         .create(true)
         .append(true)
         .open("rust_vs_python.md")?;
-    file.write_all(output.as_bytes())?;
+        println!("Attempting to write to rust_vs_python.md");
+        file.write_all(output.as_bytes())?;
+        println!("Write operation to rust_vs_python.md succeeded.");
 
     Ok(result)
 }
