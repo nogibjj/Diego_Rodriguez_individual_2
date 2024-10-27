@@ -47,7 +47,6 @@ fn main() {
     }
 }
 
-
 // Test functions
 #[cfg(test)]
 mod tests {
