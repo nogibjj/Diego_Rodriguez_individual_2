@@ -76,3 +76,9 @@ generate_and_push_python:
 	else \
 		echo "No changes to commit. Skipping commit and push."; \
 	fi
+
+extract:
+	cargo run extract
+
+load: 
+	cargo run load

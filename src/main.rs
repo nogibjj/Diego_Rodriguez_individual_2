@@ -2,18 +2,51 @@ use rust_vs_python::{
     extract, load, measure_time_and_memory, query_create, query_delete, query_read, query_update,
 };
 
+use std::env;
+
 fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    // Check if at least one argument is provided
+    if args.len() < 2 {
+        println!("Usage: cargo run <operation>");
+        println!("Available operations: extract, load, query_create, query_read, query_update, query_delete");
+        return;
+    }
+
+    let operation = &args[1];
+
+    // Define the URL, file path, and directory
     let url = "https://media.githubusercontent.com/media/nickeubank/MIDS_Data/master/World_Development_Indicators/wdi_small_tidy_2015.csv";
     let file_path = "data/wdi.csv";
     let directory = "data";
 
-    measure_time_and_memory("Extract", || extract(url, file_path, directory)).unwrap();
-    measure_time_and_memory("Load", || load(file_path)).unwrap();
-    measure_time_and_memory("Query Create", query_create).unwrap();
-    measure_time_and_memory("Query Read", query_read).unwrap();
-    measure_time_and_memory("Query Update", query_update).unwrap();
-    measure_time_and_memory("Query Delete", query_delete).unwrap();
+    match operation.as_str() {
+        "extract" => {
+            measure_time_and_memory("Extract", || extract(url, file_path, directory)).unwrap();
+        }
+        "load" => {
+            measure_time_and_memory("Load", || load(file_path)).unwrap();
+        }
+        "query_create" => {
+            measure_time_and_memory("Query Create", query_create).unwrap();
+        }
+        "query_read" => {
+            measure_time_and_memory("Query Read", query_read).unwrap();
+        }
+        "query_update" => {
+            measure_time_and_memory("Query Update", query_update).unwrap();
+        }
+        "query_delete" => {
+            measure_time_and_memory("Query Delete", query_delete).unwrap();
+        }
+        _ => {
+            println!("Unknown operation: {}", operation);
+            println!("Available operations: extract, load, query_create, query_read, query_update, query_delete");
+        }
+    }
 }
+
 
 // Test functions
 #[cfg(test)]
